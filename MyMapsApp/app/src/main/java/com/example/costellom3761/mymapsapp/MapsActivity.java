@@ -1,8 +1,14 @@
 package com.example.costellom3761.mymapsapp;
 
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -22,7 +28,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
     }
+
+   // public void switchView()
+    //{
+   //     mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+   // }
 
 
     /**
@@ -39,8 +52,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng birthPlace = new LatLng(32.885126, -117.225515);
+        mMap.addMarker(new MarkerOptions().position(birthPlace).title("Born here"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(birthPlace));
+
+
+
+
+        //if (mMap != null) {
+       //     mMap.setMyLocationEnabled(true);
+        //}
+
+        //if (mMap != null) {
+          //  Location myLocation = mMap.getMyLocation();
+
+           // if (myLocation != null) {
+            //    LatLng myLatLng = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
+
+            //}
+       // }
     }
 }

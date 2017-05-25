@@ -12,6 +12,12 @@ android {
         versionName "1.0"
         multiDexEnabled true
     }
+
+    dexOptions {
+        // Prevent OutOfMemory with MultiDex during the build phase
+        javaMaxHeapSize "4g"
+    }
+
     buildTypes {
         release {
             minifyEnabled false
