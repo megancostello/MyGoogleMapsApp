@@ -6,6 +6,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
+import android.view.View;
 
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -32,10 +34,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-   // public void switchView()
-    //{
-   //     mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-   // }
+    public void switchView(View v)
+    {
+        if (mMap.getMapType() != GoogleMap.MAP_TYPE_SATELLITE) {
+            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        }
+        else if (mMap.getMapType() != GoogleMap.MAP_TYPE_NORMAL){
+            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        }
+    }
 
 
     /**
@@ -56,20 +63,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(birthPlace).title("Born here"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(birthPlace));
 
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED)
+        {
+            Log.d("MyMapsApp", "Failed Permission Check 1");
+            Log.d("MyMapsApp", Integer.toString(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)));
+            ActivityCompat.requestPermissions(this, new String[] {android.Manifest.permission.ACCESS_FINE_LOCATION}, 2);
+        }
+
+         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+         {
+             Log.d("MyMapsApp", "Failed Permission Check 2");
+             ActivityCompat.requestPermissions(this, new String[] {android.Manifest.permission.ACCESS_COARSE_LOCATION}, 2);
+
+         }
+
+
+        mMap.setMyLocationEnabled(true);
 
 
 
-        //if (mMap != null) {
-       //     mMap.setMyLocationEnabled(true);
-        //}
 
-        //if (mMap != null) {
-          //  Location myLocation = mMap.getMyLocation();
 
-           // if (myLocation != null) {
-            //    LatLng myLatLng = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
 
-            //}
-       // }
+
     }
 }
