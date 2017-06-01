@@ -42,7 +42,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final int MY_LOC_ZOOM_FACTOR = 17;
 
 
-    private LocationListener locationListenerGPS;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,11 +151,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         } catch (Exception E) {
             Log.d("MyMaps", "Caught an exception in my getLocation method");
+            E.printStackTrace();
         }
     }
 
 
-    android.location.LocationListener locationListenerGps = new android.location.LocationListener() {
+    android.location.LocationListener locationListenerGPS = new android.location.LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
             // output in log.d and Toast messages that GPS is enabled and working
@@ -164,8 +165,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
             //drop a marker on map - create a method called dropMarker
-            dropMarkerGPS(GPS_PROVIDER);
-            Log.d("MyMaps", "Marker dropped at location");
+            dropMarkerGPS(LocationManager.GPS_PROVIDER);
+            Log.d("MyMaps", "Marker dropped at location by GPS");
 
             //Remove the network location updates. Hint see LocationManager for update removal method.
             if (ActivityCompat.checkSelfPermission(getApplicationContext(),
@@ -181,7 +182,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 // for ActivityCompat#requestPermissions for more details.
                 return;
             }
-            locationManager.removeUpdates(locationListenerGPS);
+            locationManager.removeUpdates(locationListenerNetwork);
         }
 
         @Override
@@ -252,9 +253,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Toast.makeText(getApplicationContext(), "Network is enabled and working", Toast.LENGTH_SHORT).show();
 
             //drop a marker on map - create a method called dropMarker
-            dropMarker(NETWORK_PROVIDER);
+            dropMarkerNetwork(LocationManager.NETWORK_PROVIDER);
             //REPLACE WITH NETWORK_PROVIDER
-            Log.d("MyMaps", "Marker dropped at location");
+            Log.d("MyMaps", "Marker dropped at location by Network");
 
             //Relaunch the network provider request (requestLocationUpdates (NETWORK_PROVIDER))
             if (ActivityCompat.checkSelfPermission(getApplicationContext(),
@@ -290,7 +291,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         public void onProviderDisabled(String provider) {}
     };
 
-    public void dropMarker(String provider) {
+    public void dropMarkerNetwork(String provider) {
 
         LatLng userLocation = null;
 
@@ -318,6 +319,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         else {
                 //get the user location
                 userLocation = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
+
                 //display a message with the lat/long
 
                 CameraUpdate update = CameraUpdateFactory.newLatLngZoom(userLocation, MY_LOC_ZOOM_FACTOR);
