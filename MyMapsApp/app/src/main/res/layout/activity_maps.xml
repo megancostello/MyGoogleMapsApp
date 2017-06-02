@@ -15,11 +15,18 @@
             android:onClick="switchView" />
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="75dp"
             android:layout_height="wrap_content"
             android:text="Track"
             android:id="@+id/button_track"
             android:onClick="track" />
+
+        <Button
+            android:layout_width="62dp"
+            android:layout_height="wrap_content"
+            android:text="CLR"
+            android:id="@+id/button_clear"
+            android:onClick="clear" />
 
     </LinearLayout>
 
