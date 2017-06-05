@@ -103,7 +103,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void getLocation() {
         try {
             locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            //list of all markers made by GPS/Network for tracking
             circles = new ArrayList<Circle>();
+
             //getGPS status
             isGPSenabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             if (isGPSenabled) Log.d("MyMaps", "getLocation: GPS is enabled");
@@ -335,8 +337,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .strokeWidth(2)
                     .fillColor(Color.GREEN));
             circles.add(circle);
-            Log.d("MyMaps", "circled added to list");
-            Toast.makeText(this, "circle added to list", Toast.LENGTH_SHORT).show();
+
+
 
             mMap.animateCamera(update);
 
@@ -385,8 +387,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .strokeWidth(2)
                     .fillColor(Color.RED));
             circles.add(circle);
-            Log.d("MyMaps", "circled added to list");
-            Toast.makeText(this, "circle added to list", Toast.LENGTH_SHORT).show();
+
 
             mMap.animateCamera(update);
 
