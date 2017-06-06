@@ -1,7 +1,10 @@
 package com.example.costellom3761.mymapsapp;
 
+import android.app.AlertDialog;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -13,7 +16,9 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
+
 
 
 import com.google.android.gms.location.LocationRequest;
@@ -28,7 +33,9 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -43,6 +50,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Location myLocation;
     private static final int MY_LOC_ZOOM_FACTOR = 17;
     private ArrayList<Circle> circles;
+    EditText editSearch;
+    String searchThis;
+
 
 
     @Override
@@ -53,6 +63,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        editSearch = (EditText)findViewById(R.id.editText_search);
+
 
 
     }
@@ -423,6 +435,43 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         }
         circles.clear();
+    }
+
+    public void search(View v) {
+        //searches address based on editSearch using a Geocoder.
+        Geocoder geo = new Geocoder(this);
+        searchThis = editSearch.getEditableText().toString();
+        StringBuffer buffer = new StringBuffer();
+
+        List<Address> places = new ArrayList<Address>();
+        try {
+            //results in null pointer exception with lat/long boundaries.
+            places = geo.getFromLocationName(searchThis, 1, 20, 20, -120, -120);
+            Log.d("MyMaps", "No exception caught :)");
+        } catch (IOException e) {
+            Log.d("MyMaps", "Exception caught in search method");
+            e.printStackTrace();
+        }
+
+        for (Address a : places) {
+            buffer.append(a.getAddressLine(0)+"\n"+a.getAddressLine(1)
+                    +"\n"+a.getAddressLine(2)
+                    +"\n"+a.getAddressLine(3)
+                    +"\n\n");
+        }
+
+        showMessage("Search Results", buffer.toString());
+        Log.d("MyMaps", "Results shown");
+
+    }
+
+    private void showMessage(String title, String message) {
+        //alert dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true); //cancel using back button
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.show();
     }
 
 }

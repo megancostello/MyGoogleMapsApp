@@ -33,7 +33,8 @@
             android:layout_height="wrap_content"
             android:text="SRCH"
             android:id="@+id/button_search"
-            android:layout_weight="0.12" />
+            android:layout_weight="0.12"
+            android:onClick="search" />
 
         <EditText
             android:layout_width="wrap_content"
