@@ -446,22 +446,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         List<Address> places = new ArrayList<Address>();
         try {
             //results in null pointer exception with lat/long boundaries.
-            places = geo.getFromLocationName(searchThis, 1, 20, 20, -120, -120);
-            Log.d("MyMaps", "No exception caught :)");
+            if(myLocation != null) {
+                places = geo.getFromLocationName(searchThis,
+                        3, myLocation.getLatitude()-0.07246376811, myLocation.getLongitude()-0.07246376811,
+                        myLocation.getLatitude()+0.07246376811, myLocation.getLongitude()+0.07246376811);
+                Log.d("MyMaps", "No exception caught :)");
+            }
+            else {
+                Log.d("MyMaps", "your location is null :(");
+
+            }
         } catch (IOException e) {
             Log.d("MyMaps", "Exception caught in search method");
             e.printStackTrace();
         }
+        if (places.size()>0) {
+            for (Address a : places) {
+                buffer.append(a.getAddressLine(0) + "\n" + a.getAddressLine(1)
+                        + "\n" + a.getAddressLine(2)
+                        + "\n" + a.getAddressLine(3)
+                        + "\n\n");
+            }
+            showMessage("Search Results", buffer.toString());
+            Log.d("MyMaps", "Results shown");
+        }
+        else {
+            showMessage("No Search Results Available", "Nothing in 5 Mile Radius");
+            Log.d("MyMaps", "No Results shown");
 
-        for (Address a : places) {
-            buffer.append(a.getAddressLine(0)+"\n"+a.getAddressLine(1)
-                    +"\n"+a.getAddressLine(2)
-                    +"\n"+a.getAddressLine(3)
-                    +"\n\n");
         }
 
-        showMessage("Search Results", buffer.toString());
-        Log.d("MyMaps", "Results shown");
+
 
     }
 
