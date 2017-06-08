@@ -446,15 +446,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         List<Address> places = new ArrayList<Address>();
         try {
             //results in null pointer exception with lat/long boundaries.
-            if(myLocation != null) {
-                places = geo.getFromLocationName(searchThis,
-                        3, myLocation.getLatitude()-0.07246376811, myLocation.getLongitude()-0.07246376811,
-                        myLocation.getLatitude()+0.07246376811, myLocation.getLongitude()+0.07246376811);
+            if(myLocation != null && searchThis.length()>0) {
+               // places = geo.getFromLocationName(searchThis,
+                      //  5, myLocation.getLatitude()-0.07234315595, myLocation.getLongitude()-(getChangeLongitude(myLocation.getLatitude(),5)),
+                      //  myLocation.getLatitude()+0.07234315595, myLocation.getLongitude()+(getChangeLongitude(myLocation.getLatitude(),5)));
+
+                places = geo.getFromLocationName(searchThis, 5, myLocation.getLatitude()-.0155, myLocation.getLongitude()-.0155,
+                        myLocation.getLatitude()+.0155, myLocation.getLongitude()+.0155);
+
                 Log.d("MyMaps", "No exception caught :)");
             }
-            else {
+            else if (myLocation == null){
                 Log.d("MyMaps", "your location is null :(");
-
+            }
+            else if (searchThis.length()==0){
+                Log.d("MyMaps", "you didn't enter a search");
+                showMessage("No Search Results Available", "No keyword entered...");
             }
         } catch (IOException e) {
             Log.d("MyMaps", "Exception caught in search method");
@@ -466,11 +473,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         + "\n" + a.getAddressLine(2)
                         + "\n" + a.getAddressLine(3)
                         + "\n\n");
+                LatLng thePlace = new LatLng(a.getLatitude(),a.getLongitude());
+
+                Circle circle = mMap.addCircle(new CircleOptions()
+                        .center(thePlace)
+                        .radius(100)
+                        .strokeColor(Color.MAGENTA)
+                        .strokeWidth(2)
+                        .fillColor(Color.MAGENTA));
+
+                circles.add(circle);
+
             }
             showMessage("Search Results", buffer.toString());
             Log.d("MyMaps", "Results shown");
         }
-        else {
+        else if (places.size()==0 && searchThis.length()>0){
             showMessage("No Search Results Available", "Nothing in 5 Mile Radius");
             Log.d("MyMaps", "No Results shown");
 
@@ -487,6 +505,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         builder.setTitle(title);
         builder.setMessage(message);
         builder.show();
+    }
+
+    private double getChangeLongitude(double latitude, int miles) {
+        double degreesRadians = (Math.PI/180);
+        double radiansDegrees = (180/Math.PI);
+        double r = 3690*(Math.cos(latitude * (degreesRadians)));
+        return ((miles/r)*radiansDegrees);
     }
 
 }
