@@ -451,8 +451,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                       //  5, myLocation.getLatitude()-0.07234315595, myLocation.getLongitude()-(getChangeLongitude(myLocation.getLatitude(),5)),
                       //  myLocation.getLatitude()+0.07234315595, myLocation.getLongitude()+(getChangeLongitude(myLocation.getLatitude(),5)));
 
-                places = geo.getFromLocationName(searchThis, 5, myLocation.getLatitude()-.0155, myLocation.getLongitude()-.0155,
-                        myLocation.getLatitude()+.0155, myLocation.getLongitude()+.0155);
+                places = geo.getFromLocationName(searchThis, 5, myLocation.getLatitude()-.0137, myLocation.getLongitude()-.0137,
+                        myLocation.getLatitude()+.0137, myLocation.getLongitude()+.0137);
 
                 Log.d("MyMaps", "No exception caught :)");
             }
