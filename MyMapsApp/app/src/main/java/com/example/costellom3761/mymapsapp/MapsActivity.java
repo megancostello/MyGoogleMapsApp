@@ -451,8 +451,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                       //  5, myLocation.getLatitude()-0.07234315595, myLocation.getLongitude()-(getChangeLongitude(myLocation.getLatitude(),5)),
                       //  myLocation.getLatitude()+0.07234315595, myLocation.getLongitude()+(getChangeLongitude(myLocation.getLatitude(),5)));
 
-                places = geo.getFromLocationName(searchThis, 5, myLocation.getLatitude()-.0137, myLocation.getLongitude()-.0137,
-                        myLocation.getLatitude()+.0137, myLocation.getLongitude()+.0137);
+                places = geo.getFromLocationName(searchThis, 5, myLocation.getLatitude()-.0125, myLocation.getLongitude()-.015,
+                        myLocation.getLatitude()+.0125, myLocation.getLongitude()+.015);
 
                 Log.d("MyMaps", "No exception caught :)");
             }
@@ -477,7 +477,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 Circle circle = mMap.addCircle(new CircleOptions()
                         .center(thePlace)
-                        .radius(100)
+                        .radius(20)
                         .strokeColor(Color.MAGENTA)
                         .strokeWidth(2)
                         .fillColor(Color.MAGENTA));
